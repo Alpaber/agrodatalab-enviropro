@@ -1,0 +1,99 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Acerca del proyecto | AgroDataLab Web{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="mb-4">
+        <h1 class="fw-bold mb-3">Acerca del proyecto</h1>
+        <p class="text-muted mb-0">
+            AgroDataLab Web es la aplicación desarrollada para visualizar información procesada del sistema EnviroPro
+            dentro del proyecto intermodular Horizonte Verde Digital.
+        </p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h4 class="mb-3">Finalidad de la aplicación</h4>
+                    <p>
+                        Esta aplicación web tiene como objetivo transformar datos reales de sensores en información útil
+                        para consultar el estado general del sistema, revisar indicadores principales, detectar alertas
+                        y mostrar recomendaciones asociadas.
+                    </p>
+                    <p class="mb-0">
+                        La plataforma se centra en los datos de EnviroPro y permite presentar de forma clara registros,
+                        alertas, recomendaciones e importaciones de datos procesados en una interfaz web sencilla.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h4 class="mb-3">Tecnologías</h4>
+                    <ul class="mb-0">
+                        <li>Python para tratamiento y análisis de datos.</li>
+                        <li>Pandas y técnicas de limpieza de datos.</li>
+                        <li>Django para el desarrollo de la aplicación web.</li>
+                        <li>Bootstrap para la presentación visual.</li>
+                        <li>Base de datos para almacenar registros, alertas y recomendaciones.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 mt-4">
+        <div class="card-body">
+            <h4 class="mb-3">Qué integra este proyecto</h4>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <h6 class="fw-bold">Análisis de datos</h6>
+                    <p class="mb-0">
+                        Importación, limpieza, normalización, análisis exploratorio, creación de indicadores,
+                        generación de alertas y apoyo a un modelo predictivo sencillo.
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="fw-bold">Aplicación web</h6>
+                    <p class="mb-0">
+                        Visualización de resultados, consulta de registros, revisión de alertas, gestión de
+                        recomendaciones e importación de datos ya procesados.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 mt-4">
+        <div class="card-body">
+            <h4 class="mb-3">Páginas principales</h4>
+            <ul class="mb-0">
+                <li><strong>Inicio:</strong> presentación general del proyecto.</li>
+                <li><strong>Dashboard:</strong> indicadores clave y resumen del sistema.</li>
+                <li><strong>Alertas:</strong> listado de alertas detectadas y su estado.</li>
+                <li><strong>Recomendaciones:</strong> gestión CRUD de recomendaciones asociadas.</li>
+                <li><strong>Importación:</strong> carga de archivos CSV procesados.</li>
+                <li><strong>Acerca del proyecto:</strong> explicación del enfoque intermodular y la solución desarrollada.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 mt-4">
+        <div class="card-body">
+            <h4 class="mb-3">Alcance del sistema</h4>
+            <p>
+                Las recomendaciones mostradas por la aplicación deben interpretarse como orientaciones prudentes
+                basadas en patrones detectados en los datos, no como órdenes agronómicas definitivas.
+            </p>
+            <p class="mb-0">
+                La posible comparación con datos agroclimáticos de IFAPA-RIA pertenece a la parte de análisis de datos
+                y no es obligatoria dentro de la aplicación web Django.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

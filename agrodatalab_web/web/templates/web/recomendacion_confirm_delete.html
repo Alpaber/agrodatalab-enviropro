@@ -1,0 +1,38 @@
+{% extends 'web/base.html' %}
+{% block title %}Eliminar recomendación | AgroDataLab Web{% endblock %}
+
+{% block content %}
+<div class="container py-4" style="max-width: 750px;">
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h1 class="fw-bold mb-3">Eliminar recomendación</h1>
+
+            <p class="mb-2">
+                Vas a eliminar la recomendación:
+            </p>
+
+            <div class="p-3 rounded bg-light border mb-3">
+                <h5 class="mb-1">{{ recomendacion.titulo }}</h5>
+                <p class="mb-2 text-muted">{{ recomendacion.descripcion|truncatechars:180 }}</p>
+
+                {% if recomendacion.alerta %}
+                    <small class="text-muted">
+                        Asociada a la alerta: {{ recomendacion.alerta.get_tipo_display }}
+                        ({{ recomendacion.alerta.fecha_hora|date:"d/m/Y H:i" }})
+                    </small>
+                {% endif %}
+            </div>
+
+            <p class="text-danger fw-semibold">
+                Esta acción no se puede deshacer.
+            </p>
+
+            <form method="post" class="d-flex flex-wrap gap-2">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                <a href="{% url 'recomendaciones' %}" class="btn btn-outline-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

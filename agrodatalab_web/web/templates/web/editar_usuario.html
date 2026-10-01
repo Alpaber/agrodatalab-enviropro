@@ -1,0 +1,46 @@
+{% extends 'web/base.html' %}
+
+{% block content %}
+<div class="container" style="max-width: 700px;">
+    <h1 class="mb-4">Editar usuario</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} mb-3">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="username" class="form-label">Nombre de usuario</label>
+                    <input type="text" name="username" id="username" class="form-control" value="{{ usuario_obj.username }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Correo electrónico</label>
+                    <input type="email" name="email" id="email" class="form-control" value="{{ usuario_obj.email }}">
+                </div>
+
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" name="is_superuser" id="is_superuser"
+                           {% if usuario_obj.is_superuser %}checked{% endif %}>
+                    <label class="form-check-label" for="is_superuser">
+                        Administrador
+                    </label>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-success">Guardar cambios</button>
+                    <a href="{% url 'admin_usuarios' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

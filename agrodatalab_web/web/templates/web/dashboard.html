@@ -1,0 +1,204 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Dashboard | AgroDataLab Web{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="mb-4">
+        <h1 class="fw-bold">Dashboard</h1>
+        <p class="text-muted mb-0">Resumen general del sistema EnviroPro.</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6 col-xl-4">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-body">
+                    <h5 class="card-title">Total de registros</h5>
+                    <p class="display-6 fw-bold text-success mb-0">{{ total_registros }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-body">
+                    <h5 class="card-title">Primera lectura</h5>
+                    <p class="mb-0">
+                        {% if primera_lectura %}
+                            {{ primera_lectura.fecha_hora }}
+                        {% else %}
+                            No disponible
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-body">
+                    <h5 class="card-title">Última lectura</h5>
+                    <p class="mb-0">
+                        {% if ultima_lectura %}
+                            {{ ultima_lectura.fecha_hora }}
+                        {% else %}
+                            No disponible
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mt-2">
+    <div class="col-md-6 col-xl-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body d-flex flex-column">
+                <h6 class="text-muted">Humedad media</h6>
+                <h2 class="fw-bold text-success">{% if humedad_media_general is not None %}
+                            {{ humedad_media_general|floatformat:2 }} %
+                        {% else %}
+                            No disponible
+                        {% endif %}</h2>
+                <p class="text-muted small mb-3">Consulta completa de indicadores y registros de humedad.</p>
+                <a href="{% url 'humedad' %}" class="btn btn-sm btn-outline-success mt-auto">
+                    Ver detalle
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body d-flex flex-column">
+                <h6 class="text-muted">Temperatura media</h6>
+                <h2 class="fw-bold text-danger">{% if temperatura_media_general is not None %}
+                            {{ temperatura_media_general|floatformat:2 }} ºC
+                        {% else %}
+                            No disponible
+                        {% endif %}</h2>
+                <p class="text-muted small mb-3">Acceso al análisis detallado de temperatura del sistema.</p>
+                <a href="{% url 'temperatura' %}" class="btn btn-sm btn-outline-danger mt-auto">
+    Ver detalle
+</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body d-flex flex-column">
+                <h6 class="text-muted">Batería media</h6>
+                <h2 class="fw-bold text-warning"> {% if bateria_media is not None %}
+                            {{ bateria_media|floatformat:2 }} mV
+                        {% else %}
+                            No disponible
+                        {% endif %}</h2>
+                <p class="text-muted small mb-3">Consulta específica del estado energético de la batería.</p>
+                <a href="{% url 'bateria' %}" class="btn btn-sm btn-outline-warning mt-auto">
+    Ver detalle
+</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body d-flex flex-column">
+                <h6 class="text-muted">Panel solar medio</h6>
+                <h2 class="fw-bold text-primary">{% if panel_solar_medio is not None %}
+                            {{ panel_solar_medio|floatformat:2 }} mV
+                        {% else %}
+                            No disponible
+                        {% endif %}</h2>
+                <p class="text-muted small mb-3">Detalle del rendimiento energético asociado al panel solar.</p>
+                <a href="{% url 'panel_solar' %}" class="btn btn-sm btn-outline-primary mt-auto">
+    Ver detalle
+</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="row g-4 mt-1">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-warning">Alertas de sequedad</h5>
+                    <p class="display-6 fw-bold mb-0">{{ alertas_sequedad }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-danger">Alertas energéticas</h5>
+                    <p class="display-6 fw-bold mb-0">{{ alertas_energeticas }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+    <div class="card shadow-sm border-0 h-100">
+        <div class="card-body">
+            <h5 class="text-danger">Temperaturas altas</h5>
+            <h2 class="fw-bold">{{ temperaturas_altas }}</h2>
+        </div>
+    </div>
+</div>
+
+    <div class="row g-4 mt-1">
+        <div class="col-lg-7">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h4 class="mb-3">Última recomendación generada</h4>
+
+                    {% if ultima_recomendacion %}
+                        <p><strong>Título:</strong> {{ ultima_recomendacion.titulo }}</p>
+                        <p><strong>Descripción:</strong> {{ ultima_recomendacion.descripcion }}</p>
+                        <p><strong>Prioridad:</strong> {{ ultima_recomendacion.prioridad }}</p>
+                        <p><strong>Estado:</strong> {{ ultima_recomendacion.estado }}</p>
+                    {% else %}
+                        <p class="text-muted mb-0">No hay recomendaciones generadas todavía.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-5">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h4 class="mb-3">Resumen rápido</h4>
+                    <ul class="mb-0">
+                        <li>Estado general de humedad y temperatura.</li>
+                        <li>Comportamiento energético del nodo.</li>
+                        <li>Detección de alertas relevantes.</li>
+                        <li>Acceso a recomendaciones recientes.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mt-1">
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h4 class="mb-3">Gráfico de humedad</h4>
+                    <img src="{% url 'grafico_humedad' %}" alt="Gráfico de humedad" class="img-fluid rounded">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h4 class="mb-3">Gráfico de temperatura</h4>
+                    <img src="{% url 'grafico_temperatura' %}" alt="Gráfico de temperatura" class="img-fluid rounded">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

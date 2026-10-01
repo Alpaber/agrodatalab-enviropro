@@ -1,0 +1,32 @@
+{% extends 'web/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Usuarios</h1>
+    <p class="mb-4">
+        Desde esta sección puedes crear una cuenta nueva o iniciar sesión en AgroDataLab EnviroPro.
+    </p>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h3>Iniciar sesión</h3>
+                    <p>Accede a la gestión de alertas, recomendaciones y datos del sistema.</p>
+                    <a href="{% url 'login' %}" class="btn btn-primary">Ir a inicio de sesión</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h3>Crear cuenta</h3>
+                    <p>Registra un nuevo usuario para acceder a la aplicación web.</p>
+                    <a href="{% url 'registro' %}" class="btn btn-success">Ir al registro</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

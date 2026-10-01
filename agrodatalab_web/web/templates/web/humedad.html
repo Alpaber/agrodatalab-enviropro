@@ -1,0 +1,64 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Datos de humedad | AgroDataLab Web{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+            <h1 class="fw-bold mb-2">Datos de humedad</h1>
+            <p class="text-muted mb-0">
+                Consulta de indicadores y registros de humedad del sistema EnviroPro.
+            </p>
+        </div>
+
+        <div>
+            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">
+            ← Volver al dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Humedad media</h6>
+                    <h2 class="fw-bold text-success">{{ humedad_media|floatformat:2 }} %</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Humedad máxima</h6>
+                    <h2 class="fw-bold">{{ humedad_maxima|floatformat:2 }} %</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Humedad mínima</h6>
+                    <h2 class="fw-bold">{{ humedad_minima|floatformat:2 }} %</h2>
+                </div>
+            </div>
+        </div>
+
+    <div class="card shadow-sm border-0">
+    <div class="card-body">
+        <h4 class="mb-3">Gráfica de humedad</h4>
+        <p class="text-muted mb-4">
+            Evolución mensual de la humedad media registrada en el sistema EnviroPro.
+        </p>
+
+        {% if grafica_humedad %}
+            <img src="data:image/png;base64,{{ grafica_humedad }}" alt="Gráfica mensual de humedad" class="img-fluid rounded">
+        {% else %}
+            <p class="text-muted mb-0">No hay datos suficientes para generar la gráfica.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'web/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1>AgroDataLab EnviroPro</h1>
+            <p class="lead">
+                Esta aplicación forma parte del proyecto intermodular <strong>Horizonte Verde Digital</strong>.
+            </p>
+            <p>
+                El objetivo de AgroDataLab EnviroPro es transformar datos reales de sensores de suelo
+                en información útil para entender la humedad del suelo, la temperatura del suelo y
+                el estado energético del nodo EnviroPro.
+            </p>
+            <p>
+                A partir de estos datos se generan indicadores, se detectan situaciones de riesgo
+                relativo, se crean alertas automáticas y se formulan recomendaciones prudentes,
+                apoyadas por un modelo predictivo sencillo entrenado en la parte de análisis de datos.
+            </p>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Qué puedes hacer en la web</h5>
+                    <ul class="mb-0">
+                        <li>Consultar el dashboard general de EnviroPro.</li>
+                        <li>Revisar registros resumidos de sensores.</li>
+                        <li>Ver alertas automáticas y su nivel de riesgo relativo.</li>
+                        <li>Gestionar recomendaciones asociadas a las alertas.</li>
+                        <li>Importar nuevos datos limpios desde un archivo CSV.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <h3>Datos EnviroPro</h3>
+            <p>
+                El sistema EnviroPro registra fecha y hora de cada medición, humedad media del suelo,
+                temperatura del suelo (media, máxima y mínima) y valores energéticos de batería y
+                panel solar. La aplicación ha sido diseñada para adaptarse a nuevas descargas de datos,
+                sin depender de un número fijo de registros.
+            </p>
+        </div>
+        <div class="col-md-6">
+            <h3>Alcance de las recomendaciones</h3>
+            <p>
+                Las alertas y recomendaciones se entienden siempre como indicadores de
+                <strong>riesgo relativo</strong>, no como órdenes agronómicas definitivas. No se
+                dispone de información completa sobre cultivo, riego aplicado o tipo de suelo, por lo
+                que las decisiones finales deben tomarse siempre junto al equipo agrario.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

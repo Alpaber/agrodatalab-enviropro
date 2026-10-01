@@ -1,0 +1,52 @@
+{% extends 'web/base.html' %}
+{% block title %}{{ titulo_pagina }} | AgroDataLab Web{% endblock %}
+
+{% block content %}
+<div class="container py-4" style="max-width: 850px;">
+    <div class="mb-4">
+        <h1 class="fw-bold mb-1">{{ titulo_pagina }}</h1>
+        <p class="text-muted mb-0">
+            Completa los datos de la recomendación técnica y relaciónala con una alerta si corresponde.
+        </p>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <form method="post" novalidate>
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <div class="row g-3">
+                    {% for field in form %}
+                    <div class="col-12">
+                        <label for="{{ field.id_for_label }}" class="form-label fw-semibold">
+                            {{ field.label }}
+                        </label>
+
+                        {{ field }}
+
+                        {% if field.help_text %}
+                            <div class="form-text">{{ field.help_text }}</div>
+                        {% endif %}
+
+                        {% for error in field.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                    <button type="submit" class="btn btn-success">Guardar recomendación</button>
+                    <a href="{% url 'recomendaciones' %}" class="btn btn-outline-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

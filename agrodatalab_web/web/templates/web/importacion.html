@@ -1,0 +1,130 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Importación | AgroDataLab Web{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="mb-4">
+        <h1 class="fw-bold">Importación de datos</h1>
+        <p class="text-muted mb-0">
+            Carga archivos CSV procesados para incorporarlos al sistema AgroDataLab EnviroPro.
+        </p>
+    </div>
+
+    {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+                <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% else %}alert-info{% endif %} shadow-sm border-0">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted mb-2">Registros cargados</h6>
+                    <p class="display-6 fw-bold text-success mb-0">{{ total_registros }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted mb-2">Alertas generadas</h6>
+                    <p class="display-6 fw-bold text-warning mb-0">{{ total_alertas }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted mb-2">Recomendaciones</h6>
+                    <p class="display-6 fw-bold text-primary mb-0">{{ total_recomendaciones }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted mb-2">Último registro</h6>
+                    <p class="mb-0 fw-semibold">
+                        {% if ultimo_registro %}
+                            {{ ultimo_registro.fecha_hora|date:"d/m/Y H:i" }}
+                        {% else %}
+                            No disponible
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h4 class="mb-3">Subir archivo CSV procesado</h4>
+                    <p class="text-muted">
+                        Selecciona un archivo CSV generado tras la limpieza, preparación y análisis previo de datos.
+                    </p>
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="archivo_csv" class="form-label fw-semibold">Archivo CSV</label>
+                            <input
+                                type="file"
+                                name="archivo_csv"
+                                id="archivo_csv"
+                                class="form-control"
+                                accept=".csv"
+                                required
+                            >
+                            <div class="form-text">
+                                Formato admitido: archivos .csv con datos procesados de EnviroPro.
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success">
+                            Importar datos
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h4 class="mb-3">Qué hace esta importación</h4>
+                    <ul class="mb-0">
+                        <li>Lee registros procesados del sistema EnviroPro.</li>
+                        <li>Crea nuevos registros sin duplicar fechas ya existentes.</li>
+                        <li>Genera alertas automáticas cuando el archivo lo indica.</li>
+                        <li>Asocia recomendaciones técnicas a las alertas creadas.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 mt-4">
+        <div class="card-body">
+            <h4 class="mb-3">Indicaciones</h4>
+            <ul class="mb-0">
+                <li>El archivo debe estar en formato CSV.</li>
+                <li>Se recomienda usar el dataset limpio y procesado del análisis previo.</li>
+                <li>Los registros importados pueden generar alertas y recomendaciones automáticas.</li>
+                <li>Si un registro ya existe con la misma fecha y hora, no se duplicará.</li>
+                <li>La importación debe usar datos EnviroPro, no es necesario cargar información IFAPA-RIA en la web.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

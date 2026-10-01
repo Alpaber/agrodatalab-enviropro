@@ -1,0 +1,9 @@
+# Dependencias para ejecutar el notebook de análisis (datos/01_procesamiento_datos.ipynb)
+-r agrodatalab_web/requirements.txt
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+openpyxl
+jupyterlab

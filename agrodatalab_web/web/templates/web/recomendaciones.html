@@ -1,0 +1,113 @@
+{% extends 'web/base.html' %}
+{% block title %}Recomendaciones | AgroDataLab Web{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+        <div>
+            <h1 class="fw-bold mb-1">Recomendaciones</h1>
+            <p class="text-muted mb-0">Gestión de recomendaciones técnicas asociadas a alertas del sistema EnviroPro.</p>
+        </div>
+        <a href="{% url 'crear_recomendacion' %}" class="btn btn-success">
+            Nueva recomendación
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            {% if recomendaciones %}
+                <div class="table-responsive">
+                    <table class="table align-middle table-hover">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Descripción</th>
+                                <th>Alerta asociada</th>
+                                <th>Prioridad</th>
+                                <th>Estado</th>
+                                <th class="text-end">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for r in recomendaciones %}
+                            <tr>
+                                <td class="fw-semibold">{{ r.titulo }}</td>
+
+                                <td>
+                                    <span title="{{ r.descripcion }}">
+                                        {{ r.descripcion|truncatechars:90 }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    {% if r.alerta %}
+                                        <div class="fw-semibold">{{ r.alerta.get_tipo_display }}</div>
+                                        <small class="text-muted">{{ r.alerta.fecha_hora|date:"d/m/Y H:i" }}</small>
+                                    {% else %}
+                                        <span class="text-muted">Sin alerta asociada</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {% if r.prioridad == 'alta' %}
+                                        <span class="badge bg-danger">Alta</span>
+                                    {% elif r.prioridad == 'media' %}
+                                        <span class="badge bg-warning text-dark">Media</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Baja</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {% if r.estado == 'pendiente' %}
+                                        <span class="badge bg-warning text-dark">Pendiente</span>
+                                    {% elif r.estado == 'revisada' %}
+                                        <span class="badge bg-success">Revisada</span>
+                                    {% elif r.estado == 'descartada' %}
+                                        <span class="badge bg-dark">Descartada</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">{{ r.get_estado_display }}</span>
+                                    {% endif %}
+                                </td>
+
+                                <td class="text-end">
+                                    <div class="d-flex flex-wrap justify-content-end gap-2">
+                                        <a href="{% url 'editar_recomendacion' r.pk %}" class="btn btn-sm btn-outline-primary">
+                                            Editar
+                                        </a>
+
+                                        {% if r.estado != 'revisada' %}
+                                        <a href="{% url 'marcar_revisada' r.pk %}" class="btn btn-sm btn-outline-success">
+                                            Revisar
+                                        </a>
+                                        {% endif %}
+
+                                        {% if r.estado != 'descartada' %}
+                                        <a href="{% url 'marcar_descartada' r.pk %}" class="btn btn-sm btn-outline-secondary">
+                                            Descartar
+                                        </a>
+                                        {% endif %}
+
+                                        <a href="{% url 'eliminar_recomendacion' r.pk %}" class="btn btn-sm btn-outline-danger">
+                                            Eliminar
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-4">
+                    <h5 class="mb-2">No hay recomendaciones registradas</h5>
+                    <p class="text-muted mb-3">Todavía no se han creado recomendaciones manuales o automáticas.</p>
+                    <a href="{% url 'crear_recomendacion' %}" class="btn btn-success">
+                        Crear primera recomendación
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,152 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Registros EnviroPro | AgroDataLab Web{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="mb-4">
+        <h1 class="fw-bold mb-2">Registros EnviroPro</h1>
+        <p class="text-muted mb-0">
+            Consulta detallada de las lecturas importadas del sistema EnviroPro.
+        </p>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            {% if page_obj %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Fecha y hora</th>
+                            <th>Humedad media</th>
+                            <th>Temperatura media</th>
+                            <th>Temperatura máxima</th>
+                            <th>Temperatura mínima</th>
+                            <th>Batería</th>
+                            <th>Panel solar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for registro in page_obj %}
+                        <tr>
+                            <td>{{ registro.fecha_hora|date:"d/m/Y H:i" }}</td>
+                            <td>{{ registro.humedad_media }}</td>
+                            <td>{{ registro.temperatura_media }}</td>
+                            <td>{{ registro.temperatura_maxima }}</td>
+                            <td>{{ registro.temperatura_minima }}</td>
+                            <td>{{ registro.bateria_mv }}</td>
+                            <td>{{ registro.panel_solar_mv }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+           <nav aria-label="Paginación de registros" class="mt-4">
+    {% if page_obj.has_other_pages %}
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center gap-3">
+
+        <small class="text-muted">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+            · Mostrando {{ page_obj.start_index }}–{{ page_obj.end_index }}
+        </small>
+
+        <div class="d-flex align-items-center gap-2 flex-wrap justify-content-center">
+            <ul class="pagination mb-0">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">«</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                    </li>
+                {% endif %}
+
+                {% if page_obj.number > 3 %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">1</a>
+                    </li>
+                    {% if page_obj.number > 4 %}
+                        <li class="page-item">
+                            <button type="button" class="page-link" onclick="toggleJumpPage()">...</button>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %}
+                        {% if page_obj.number == num %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ num }}</span>
+                            </li>
+                        {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.number < page_obj.paginator.num_pages|add:'-2' %}
+                    {% if page_obj.number < page_obj.paginator.num_pages|add:'-3' %}
+                        <li class="page-item">
+                            <button type="button" class="page-link" onclick="toggleJumpPage()">...</button>
+                        </li>
+                    {% endif %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">
+                            {{ page_obj.paginator.num_pages }}
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">»</a>
+                    </li>
+                {% endif %}
+            </ul>
+
+            <form method="get" id="jumpPageForm" class="d-none align-items-center gap-2">
+                <label for="pageInput" class="small text-muted mb-0">Ir a:</label>
+                <input
+                    type="number"
+                    id="pageInput"
+                    name="page"
+                    min="1"
+                    max="{{ page_obj.paginator.num_pages }}"
+                    value="{{ page_obj.number }}"
+                    class="form-control form-control-sm"
+                    style="width: 90px;"
+                >
+                <button type="submit" class="btn btn-sm btn-outline-success">Ir</button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+</nav>
+
+<script>
+    function toggleJumpPage() {
+        const form = document.getElementById('jumpPageForm');
+        form.classList.toggle('d-none');
+        form.classList.toggle('d-flex');
+
+        const input = document.getElementById('pageInput');
+        if (!form.classList.contains('d-none')) {
+            input.focus();
+            input.select();
+        }
+    }
+</script>
+            {% else %}
+                <p class="mb-0 text-muted">No hay registros disponibles.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

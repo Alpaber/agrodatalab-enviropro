@@ -1,0 +1,75 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Alertas | AgroDataLab Web{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="mb-4">
+        <h1 class="fw-bold">Alertas</h1>
+        <p class="text-muted">Listado de alertas detectadas por el sistema EnviroPro y sus recomendaciones asociadas.</p>
+    </div>
+
+    {% if alertas %}
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Tipo</th>
+                                <th>Nivel</th>
+                                <th>Variable afectada</th>
+                                <th>Descripción</th>
+                                <th>Atendida</th>
+                                <th>Recomendaciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for alerta in alertas %}
+                            <tr>
+                                <td>{{ alerta.fecha_hora|date:"d/m/Y H:i" }}</td>
+                                <td>{{ alerta.get_tipo_display }}</td>
+                                <td>
+                                    {% if alerta.nivel == 'alta' %}
+                                        <span class="badge bg-danger">Alta</span>
+                                    {% elif alerta.nivel == 'media' %}
+                                        <span class="badge bg-warning text-dark">Media</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Baja</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ alerta.variable_afectada }}</td>
+                                <td>{{ alerta.descripcion }}</td>
+                                <td>
+                                    {% if alerta.atendida %}
+                                        <span class="badge bg-success">Sí</span>
+                                    {% else %}
+                                        <span class="badge bg-dark">No</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if alerta.recomendaciones.all %}
+                                        <ul class="mb-0 ps-3">
+                                            {% for recomendacion in alerta.recomendaciones.all %}
+                                                <li>{{ recomendacion.titulo }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <span class="text-muted">Sin recomendaciones</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-info shadow-sm border-0">
+            No hay alertas registradas actualmente.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

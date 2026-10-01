@@ -1,0 +1,80 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Datos de batería | AgroDataLab Web{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+            <h1 class="fw-bold mb-2">Datos de batería</h1>
+            <p class="text-muted mb-0">
+                Consulta de indicadores y evolución de batería del sistema EnviroPro.
+            </p>
+        </div>
+
+        <div>
+            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">
+                ← Volver al dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Batería media</h6>
+                    <h2 class="fw-bold text-warning">{{ bateria_media|floatformat:2 }} mV</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Batería máxima</h6>
+                    <h2 class="fw-bold">{{ bateria_maxima|floatformat:2 }} mV</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Batería mínima</h6>
+                    <h2 class="fw-bold">{{ bateria_minima|floatformat:2 }} mV</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Última lectura</h6>
+                    {% if ultima_lectura %}
+                        <p class="fw-bold mb-1">{{ ultima_lectura.bateria_mv|floatformat:2 }} mV</p>
+                        <small class="text-muted">{{ ultima_lectura.fecha_hora|date:"d/m/Y H:i" }}</small>
+                    {% else %}
+                        <p class="text-muted mb-0">Sin datos disponibles</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h4 class="mb-3">Gráfica de batería</h4>
+            <p class="text-muted mb-4">
+                Evolución mensual de la batería media registrada en el sistema EnviroPro.
+            </p>
+
+            {% if grafica_bateria %}
+                <img src="data:image/png;base64,{{ grafica_bateria }}" alt="Gráfica mensual de batería" class="img-fluid rounded">
+            {% else %}
+                <p class="text-muted mb-0">No hay datos suficientes para generar la gráfica.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
